@@ -1,120 +1,146 @@
-import { BRAND } from "@/types/brand";
-import Image from "next/image";
-
-const brandData: BRAND[] = [
-  {
-    logo: "/images/brand/brand-01.svg",
-    name: "Google",
-    visitors: 3.5,
-    revenues: "5,768",
-    sales: 590,
-    conversion: 4.8,
-  },
-  {
-    logo: "/images/brand/brand-02.svg",
-    name: "Twitter",
-    visitors: 2.2,
-    revenues: "4,635",
-    sales: 467,
-    conversion: 4.3,
-  },
-  {
-    logo: "/images/brand/brand-03.svg",
-    name: "Github",
-    visitors: 2.1,
-    revenues: "4,290",
-    sales: 420,
-    conversion: 3.7,
-  },
-  {
-    logo: "/images/brand/brand-04.svg",
-    name: "Vimeo",
-    visitors: 1.5,
-    revenues: "3,580",
-    sales: 389,
-    conversion: 2.5,
-  },
-  {
-    logo: "/images/brand/brand-05.svg",
-    name: "Facebook",
-    visitors: 3.5,
-    revenues: "6,768",
-    sales: 390,
-    conversion: 4.2,
-  },
-];
+import { useState } from "react";
+import data from "@/components/data_exemple2.json";
 
 const TableOne = () => {
+  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+
+  // Function to handle search input changes
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filtered data based on the search term
+  const filteredData = data.molecules.map((molecule) => ({
+    ...molecule,
+    medications: molecule.medications.filter((medication) =>
+      medication.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+  })).filter((molecule) => molecule.medications.length > 0); // Only keep molecules with matching medications
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Top Channels
+        Medications and Price History
       </h4>
+      <form action="https://formbold.com/s/unique_form_id" method="POST">
+        <div className="relative mb-8 ">
+          <button className="absolute left-0 top-1/2 -translate-y-1/2">
+            <svg
+              className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M9.16666 3.33332C5.945 3.33332 3.33332 5.945 3.33332 9.16666C3.33332 12.3883 5.945 15 9.16666 15C12.3883 15 15 12.3883 15 9.16666C15 5.945 12.3883 3.33332 9.16666 3.33332ZM1.66666 9.16666C1.66666 5.02452 5.02452 1.66666 9.16666 1.66666C13.3088 1.66666 16.6667 5.02452 16.6667 9.16666C16.6667 13.3088 13.3088 16.6667 9.16666 16.6667C5.02452 16.6667 1.66666 13.3088 1.66666 9.16666Z"
+                fill=""
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M13.2857 13.2857C13.6112 12.9603 14.1388 12.9603 14.4642 13.2857L18.0892 16.9107C18.4147 17.2362 18.4147 17.7638 18.0892 18.0892C17.7638 18.4147 17.2362 18.4147 16.9107 18.0892L13.2857 14.4642C12.9603 14.1388 12.9603 13.6112 13.2857 13.2857Z"
+                fill=""
+              />
+            </svg>
+          </button>
 
+          <input
+            type="text"
+            placeholder="Type to search..."
+            value={searchTerm} // Controlled input
+            onChange={handleSearch} // Call function when input changes
+            className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
+          />
+        </div>
+      </form>
       <div className="flex flex-col">
+        {/* Table Header */}
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Source
+              Medication
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Visitors
+              Dosage
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Revenues
+              Latest Price (EUR)
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Sales
+              Latest Price (USD)
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Conversion
+              Price Date
             </h5>
           </div>
         </div>
 
-        {brandData.map((brand, key) => (
-          <div
-            className={`grid grid-cols-3 sm:grid-cols-5 ${
-              key === brandData.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
-            }`}
-            key={key}
-          >
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <div className="flex-shrink-0">
-                <Image src={brand.logo} alt="Brand" width={48} height={48} />
+        {/* Table Rows */}
+        {filteredData.map((molecule, moleculeIndex) =>
+          molecule.medications.map((medication, medicationIndex) => (
+            <div
+              className={`grid grid-cols-3 sm:grid-cols-5 ${
+                medicationIndex === molecule.medications.length - 1 &&
+                moleculeIndex === filteredData.length - 1
+                  ? ""
+                  : "border-b border-stroke dark:border-strokedark"
+              }`}
+              key={`${moleculeIndex}-${medicationIndex}`}
+            >
+              <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{medication.name}</p>
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
-                {brand.name}
-              </p>
-            </div>
 
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{brand.visitors}K</p>
-            </div>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">
+                  {medication.dosage}
+                </p>
+              </div>
 
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">${brand.revenues}</p>
-            </div>
+              {/* Latest Price (EUR) */}
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-meta-3">
+                  €
+                  {medication.priceHistory[
+                    medication.priceHistory.length - 1
+                  ].priceEUR.toFixed(2)}
+                </p>
+              </div>
 
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{brand.sales}</p>
-            </div>
+              {/* Latest Price (USD) */}
+              <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <p className="text-meta-5">
+                  $
+                  {medication.priceHistory[
+                    medication.priceHistory.length - 1
+                  ].priceUSD.toFixed(2)}
+                </p>
+              </div>
 
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{brand.conversion}%</p>
+              {/* Price Date */}
+              <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <p className="text-black dark:text-white">
+                  {
+                    medication.priceHistory[medication.priceHistory.length - 1]
+                      .date
+                  }
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

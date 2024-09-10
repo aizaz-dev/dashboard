@@ -2,7 +2,9 @@
 import { ApexOptions } from "apexcharts";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 interface ChartThreeState {
   series: number[];
@@ -13,7 +15,7 @@ const options: ApexOptions = {
     type: "donut",
   },
   colors: ["#10B981", "#375E83", "#259AE6", "#FFA70B"],
-  labels: ["Remote", "Hybrid", "Onsite", "Leave"],
+  labels: ["Zestril", "Prinivil", "Metformin", "Fortamet"],
   legend: {
     show: true,
     position: "bottom",

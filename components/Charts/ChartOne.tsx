@@ -135,13 +135,18 @@ const ChartOne: React.FC = () => {
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
-        name: "Product One",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        name: "Lisinopril",
+        data: [
+          23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 452, 3, 5, 1, 5, 7, 8,
+        ],
       },
-
       {
-        name: "Product Two",
+        name: "Metformin",
         data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+      },
+      {
+        name: "Amlodipine",
+        data: [30, 25, 36, 20, 45, 35, 74, 52, 59, 26, 39, 11, 1, 5, 7, 8],
       },
     ],
   });
