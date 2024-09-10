@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import data from "@/components/data_exemple2.json";
 
@@ -10,12 +11,14 @@ const TableOne = () => {
   };
 
   // Filtered data based on the search term
-  const filteredData = data.molecules.map((molecule) => ({
-    ...molecule,
-    medications: molecule.medications.filter((medication) =>
-      medication.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ),
-  })).filter((molecule) => molecule.medications.length > 0); // Only keep molecules with matching medications
+  const filteredData = data.molecules
+    .map((molecule) => ({
+      ...molecule,
+      medications: molecule.medications.filter((medication) =>
+        medication.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    }))
+    .filter((molecule) => molecule.medications.length > 0); // Only keep molecules with matching medications
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
